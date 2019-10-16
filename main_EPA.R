@@ -9,7 +9,7 @@ library(MASS)
 library(invgamma)
 library(Rcpp)
 library(RcppArmadillo)
-sourceCpp("~/Box/Homeless/Code/EPA_Sampling.cpp")
+sourceCpp("EPA_Sampling.cpp")
 
 
 #N_sims = 10
@@ -28,10 +28,9 @@ main<-function(nsim,batch, var){
   
   initialization = batch + nsim #"synthetic" #"linear", "step", 1
   message(paste("initialization = ",initialization,sep=""))
-  stem = "~/Box/Homeless/"
-  load(paste(stem,"Data/ALL_CoC_Affordability_POV.RData",sep="") )
-  #load(paste(stem,"Data/ALL_CoC_ZRI.RData",sep="") )
-  source(paste(stem,"Code/MCMC_functions_DPM.R",sep="") )
+  stem = ""
+  load(paste(stem,"ALL_CoC_Affordability_POV.RData",sep="") )
+  source(paste(stem,"MCMC_functions_DPM.R",sep="") )
   
   p_cov = dim(X[[1]])[1] # number of covariates
   begin_Year = 2011
@@ -193,7 +192,7 @@ main<-function(nsim,batch, var){
   #psi_star = matrix(nrow = nPlaces, ncol = t.T)
   
   
-  load(file = "~/Box/Homeless/Data/DPM/IS_Initialization.RData")
+  load(file = "IS_Initialization.RData")
   #eta = matrix(0,nrow = nPlaces, ncol = t.T) #dynamics of population process
   eta = Eta_Init
   
@@ -452,7 +451,7 @@ main<-function(nsim,batch, var){
   #End of MCMC
   proc.time() - ptm
   #save(file = paste(stem, "Data/DPM/Posterior_Summaries_Initiliazation.RData",sep=""), H_t, beta, eta, psi, Noisy_Pop, sigma2_psi, phi, z, nu, nu_bar, alpha, nZ, Omega, Zeta, N_star)
-  save(file = paste(stem,"Data/DPM/Posterior_Summaries_", initialization, ".RData", sep=""), SIGMA2_PSI, NZ, ALPHA, HOMELESS, ETA, PSI, N_PRED, C_PRED, PHI, NU, Z, NU_BAR,pi_count, BETA)
+  save(file = paste(stem,"Posterior_Summaries_", initialization, ".RData", sep=""), SIGMA2_PSI, NZ, ALPHA, HOMELESS, ETA, PSI, N_PRED, C_PRED, PHI, NU, Z, NU_BAR,pi_count, BETA)
 }
 
 #for now only run the truncated / non-truncated simulations.  
